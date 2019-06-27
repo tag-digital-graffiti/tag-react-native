@@ -1,0 +1,33 @@
+const { db, User, Tag } = require('./server/db');
+// const User = require('./server/db/models/users');
+// const Tag = require('./server/db/models/tags');
+const { green, red } = require('chalk');
+
+// var Promise = require('bluebird');
+
+const seed = async () => {
+  await db.sync({ force: true });
+
+  // seed your database here!
+  const userOne = await User.create({
+    username: 'tagger',
+    password: '1234'
+  });
+
+  const tagOne = await Tag.create({
+    imageUrl: '75 Wall St',
+    lat: '-74.007624',
+    long: '40.705137'
+  });
+
+  console.log(green('Seeding success!'));
+  db.close();
+};
+
+// const syncDb = () => db.sync({ force: true });
+//syncDb();
+seed().catch(err => {
+  console.error(red('Oh noes! Something went wrong!'));
+  console.error(err);
+  db.close();
+});
