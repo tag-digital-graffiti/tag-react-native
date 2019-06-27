@@ -23,7 +23,7 @@ import { ViroVRSceneNavigator, ViroARSceneNavigator, ViroARPlane} from 'react-vi
  TODO: Insert your API key below
  */
 var sharedProps = {
-  apiKey: 'AE8D0108-E309-4726-BBCF-E208984F4E87'
+  apiKey: "AE8D0108-E309-4726-BBCF-E208984F4E87"
 };
 
 // Sets the default scene you want for AR and VR
@@ -100,7 +100,7 @@ export default class ViroSample extends Component {
   _getARNavigator() {
     return (
       <ViroARSceneNavigator
-        {...this.state.sharedProps}
+        worldAlignment="GravityAndHeading"
         initialScene={{ scene: InitialARScene }}
       />
     );

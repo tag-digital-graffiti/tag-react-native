@@ -1,5 +1,5 @@
 {
-  "name": "ViroSample",
+  "name": "tagdb",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,10 +8,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "chalk": "^2.4.2",
     "ngrok": "^3.2.1",
+    "pg": "^7.11.0",
+    "pg-hstore": "^2.3.3",
     "react": "16.8.3",
-    "react-native": "0.59.3",
-    "react-viro": "2.14.0"
+    "react-native": "^0.59.9",
+    "react-viro": "2.14.0",
+    "sequelize": "^5.8.12"
   },
   "devDependencies": {
     "@babel/core": "7.4.5",
