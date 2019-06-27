@@ -12,42 +12,91 @@ export default class HelloWorldSceneAR extends Component {
 
     // Set initial state here
     this.state = {
-      text: 'Initializing AR...'
+      text: 'hello world',
+      deviceLat: 40.704944,
+      deviceLong: -74.0091772,
+      markerLat: 40.7052,
+      markerLong: -74.0094
     };
 
     // bind 'this' to functions
-    this._onInitialized = this._onInitialized.bind(this);
+    this._onUpdated = this._onUpdated.bind(this);
+    this._latLongToMerc = this._latLongToMerc.bind(this);
+    this._transformPointToAR = this._transformPointToAR.bind(this);
+  }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(position => {
+      this.setState({
+        deviceLat: position.coords.latitude,
+        deviceLong: position.coords.longitude
+      });
+      //   },
+      //   error => this.setState({ error: error.message }),
+      //   { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      // )
+    });
   }
 
   render() {
     return (
-      <ViroARScene onTrackingUpdated={this._onInitialized}>
+      <ViroARScene onTrackingUpdated={this._onUpdated}>
         <ViroText
           text={this.state.text}
-          scale={[0.5, 0.5, 0.5]}
-          position={[0, 0, -1]}
+          scale={[1, 1, 1]}
+          position={(() => {
+            let point = this._transformPointToAR(
+              this.state.markerLat,
+              this.state.markerLong
+            );
+            return [point.x, 0, point.z];
+          })()}
           style={styles.helloWorldTextStyle}
         />
       </ViroARScene>
     );
   }
+  _onUpdated() {}
 
-  _onInitialized(state, reason) {
-    if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({
-        text: 'Hello World'
-      });
-    } else if (state == ViroConstants.TRACKING_NONE) {
-      // Handle loss of tracking
+  _latLongToMerc = (lat_deg, lon_deg) => {
+    var lon_rad = (lon_deg / 180.0) * Math.PI;
+    var lat_rad = (lat_deg / 180.0) * Math.PI;
+    var sm_a = 6378137.0;
+    var xmeters = sm_a * lon_rad;
+    var ymeters = sm_a * Math.log((Math.sin(lat_rad) + 1) / Math.cos(lat_rad));
+    return { x: xmeters, y: ymeters };
+  };
+
+  _transformPointToAR = (lat, long) => {
+    var objPoint = this._latLongToMerc(lat, long);
+    // var devicePoint = this._latLongToMerc(
+    //   this.state.latitude,
+    //   this.state.longitude
+    // );
+    var devicePoint = this._latLongToMerc(
+      this.state.deviceLat,
+      this.state.deviceLong
+    );
+
+    // latitude(north,south) maps to the z axis in AR
+    // longitude(east, west) maps to the x axis in AR
+    var objFinalPosZ = objPoint.y - devicePoint.y;
+    var objFinalPosX = objPoint.x - devicePoint.x;
+    //flip the z, as negative z(is in front of us which is north, pos z is behind(south).
+    if (Math.abs(objFinalPosZ) > 200 || Math.abs(objFinalPosX) > 200) {
+      objFinalPosX = objFinalPosX * 0.1;
+      objFinalPosZ = objFinalPosZ * 0.1;
     }
-  }
+
+    return { x: objFinalPosX, z: -objFinalPosZ };
+  };
 }
 
 var styles = StyleSheet.create({
   helloWorldTextStyle: {
     fontFamily: 'Arial',
     fontSize: 30,
-    color: '#ffffff',
+    color: '#ff403a',
     textAlignVertical: 'center',
     textAlign: 'center'
   }
