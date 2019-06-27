@@ -15,8 +15,9 @@ export default class HelloWorldSceneAR extends Component {
       text: 'hello world',
       deviceLat: 40.704944,
       deviceLong: -74.0091772,
-      markerLat: 40.7052,
-      markerLong: -74.0094
+      markerLat: 40.704944,
+      markerLong: -74.0091772,
+      error: null
     };
 
     // bind 'this' to functions
@@ -26,18 +27,18 @@ export default class HelloWorldSceneAR extends Component {
   }
 
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition(position => {
-      this.setState({
-        deviceLat: position.coords.latitude,
-        deviceLong: position.coords.longitude
-      });
-      //   },
-      //   error => this.setState({ error: error.message }),
-      //   { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-      // )
-    });
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          deviceLat: position.coords.latitude,
+          deviceLong: position.coords.longitude,
+          error: null,
+        });
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
   }
-
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onUpdated}>
@@ -53,10 +54,37 @@ export default class HelloWorldSceneAR extends Component {
           })()}
           style={styles.helloWorldTextStyle}
         />
+        <ViroText
+          text={this.state.deviceLat.toString()}
+          scale={[1, 1, 1]}
+          transformBehaviors="billboard"
+          position={(() => {
+            let point = this._transformPointToAR(
+              this.state.deviceLat,
+              this.state.deviceLong
+            );
+            return [point.x, 0, point.z];
+          })()
+          }
+          style={styles.helloWorldTextStyle}
+        />
+        <ViroText
+          text={this.state.deviceLong.toString()}
+          scale={[1, 1, 1]}
+          transformBehaviors="billboard"
+          position={(() => {
+            let point = this._transformPointToAR(
+              this.state.deviceLat,
+              this.state.deviceLong
+            );
+            return [point.x, 2, point.z];
+          })()}
+          style={styles.helloWorldTextStyle}
+        />
       </ViroARScene>
     );
   }
-  _onUpdated() {}
+  _onUpdated() { }
 
   _latLongToMerc = (lat_deg, lon_deg) => {
     var lon_rad = (lon_deg / 180.0) * Math.PI;

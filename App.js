@@ -17,13 +17,13 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-import { ViroVRSceneNavigator, ViroARSceneNavigator, ViroARPlane} from 'react-viro';
+import { ViroVRSceneNavigator, ViroARSceneNavigator, ViroARPlane } from 'react-viro';
 
 /*
  TODO: Insert your API key below
  */
 var sharedProps = {
-  apiKey: 'AE8D0108-E309-4726-BBCF-E208984F4E87'
+  apiKey: '40506D80-B1B9-4AB5-837E-38B7645B5E92'
 };
 
 // Sets the default scene you want for AR and VR
