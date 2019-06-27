@@ -6,12 +6,10 @@ const Tag = db.define('tag', {
     type: Sequelize.TEXT
   },
   lat: {
-    typ
-    
-    e: Sequelize.DECIMAL
+    type: Sequelize.TEXT
   },
   long: {
-    type: Sequelize.DECIMAL
+    type: Sequelize.TEXT
   }
 })
 

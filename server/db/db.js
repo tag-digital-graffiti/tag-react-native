@@ -10,10 +10,6 @@ const db = new Sequelize(
   }
 )
 
-const syncDb = () => db.sync({force: true})
-
-syncDb()
-
 
 module.exports = db
 
