@@ -8,6 +8,7 @@
  */
 
 import React, { Component } from 'react';
+import { Provider } from 'react-redux'
 import {
   AppRegistry,
   Text,
@@ -16,6 +17,8 @@ import {
   PixelRatio,
   TouchableHighlight
 } from 'react-native';
+
+import store from './js/store'
 
 import { ViroVRSceneNavigator, ViroARSceneNavigator, ViroARPlane } from 'react-viro';
 
@@ -58,13 +61,14 @@ export default class ViroSample extends Component {
   // Replace this function with the contents of _getVRNavigator() or _getARNavigator()
   // if you are building a specific type of experience.
   render() {
-    if (this.state.navigatorType == UNSET) {
-      return this._getExperienceSelector();
-    } else if (this.state.navigatorType == VR_NAVIGATOR_TYPE) {
-      return this._getVRNavigator();
-    } else if (this.state.navigatorType == AR_NAVIGATOR_TYPE) {
-      return this._getARNavigator();
-    }
+    return (
+      <Provider store={store}>
+        {(() => {
+          return this._getARNavigator();
+        }
+        )()}
+      </Provider>
+    )
   }
 
   // Presents the user with a choice of an AR or VR experience
