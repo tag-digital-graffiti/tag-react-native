@@ -13,10 +13,10 @@ export default class HelloWorldSceneAR extends Component {
     // Set initial state here
     this.state = {
       text: 'hello world',
-      deviceLat: 40.704944,
-      deviceLong: -74.0091772,
-      markerLat: 40.704944,
-      markerLong: -74.0091772,
+      deviceLat: 0,
+      deviceLong: 0,
+      markerLat: 40.705167,
+      markerLong: -74.009049,
       error: null
     };
 
@@ -39,6 +39,28 @@ export default class HelloWorldSceneAR extends Component {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
   }
+  // render() {
+  //   return this.state.deviceLat - this.state.markerLat < 0.0002 &&
+  //     this.state.deviceLong - this.state.markerLong < 0.0002 ? (
+  //       <ViroARScene onTrackingUpdated={this._onUpdated}>
+  //         <ViroText
+  //           text={this.state.text}
+  //           scale={[0.5, 0.5, 0.5]}
+  //           position={[0, 0, -1]}
+  //           style={styles.helloWorldTextStyle}
+  //         />
+  //       </ViroARScene>
+  //     ) : (
+  //       <ViroARScene onTrackingUpdated={this._onUpdated}>
+  //         <ViroText
+  //           text={'NOTHING HERE'}
+  //           scale={[0.5, 0.5, 0.5]}
+  //           position={[0, 0, -1]}
+  //           style={styles.helloWorldTextStyle}
+  //         />
+  //       </ViroARScene>
+  //     );
+  // }
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onUpdated}>
