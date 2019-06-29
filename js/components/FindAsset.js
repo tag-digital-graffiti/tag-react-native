@@ -69,7 +69,7 @@ export default class FindAsset extends Component {
           <ViroImage
             // height={2}
             // width={2}
-            source={require('./res/graffiti.png')}
+            source={require('../res/graffiti.png')}
             // position={[0, 0, 0.1]}
             scale={this.state.scale}
             // resizeMode={'ScaleToFit'}
@@ -87,7 +87,7 @@ export default class FindAsset extends Component {
 
 ViroARTrackingTargets.createTargets({
   targetOne: {
-    source: require('./res/monitor.jpg'),
+    source: require('../res/monitor.jpg'),
     // orientation: '',
     physicalWidth: 0.3, // real world width in meters
   },
