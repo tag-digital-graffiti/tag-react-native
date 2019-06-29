@@ -4,7 +4,7 @@ const server = 'http://localhost:8082'
 const GET_NEARBY_GRAFFITI = 'GET_NEARBY_GRAFFITI';
 
 const initialState = {
-  selectedPois: []
+  nearByTags: []
 };
 
 const gotNearbyGraffiti = graffitis => ({
@@ -28,7 +28,7 @@ export default function (state = initialState, action) {
   let stateCopy = { ...state };
   switch (action.type) {
     case GET_NEARBY_GRAFFITI:
-      stateCopy.graffitis = action.graffitis;
+      stateCopy.nearByTags = action.graffitis;
       return stateCopy;
     default:
       return state;

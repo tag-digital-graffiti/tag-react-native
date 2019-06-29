@@ -6,9 +6,12 @@ import { StyleSheet } from 'react-native';
 
 import { ViroARScene, ViroImage, ViroARTrackingTargets, ViroARImageMarker, ViroARPlane, ViroText, ViroMaterials, ViroARPlaneSelector } from 'react-viro';
 
-export default class FindAsset extends Component {
-  constructor() {
-    super();
+import { connect } from 'react-redux'
+import { getNearbyGraffiti } from '../store/graffiti'
+
+class FindAsset extends Component {
+  constructor(props) {
+    super(props);
 
     // Set initial state here
     this.state = {
@@ -18,7 +21,8 @@ export default class FindAsset extends Component {
       markerLat: 40.705167,
       markerLong: -74.009049,
       error: null,
-      scale: [1, 1, 0]
+      scale: [1, 1, 0],
+      loading: false
     };
 
     // bind 'this' to functions
@@ -28,8 +32,8 @@ export default class FindAsset extends Component {
     this._onPinch = this._onPinch.bind(this);
   }
 
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
+  async componentDidMount() {
+    await navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({
           deviceLat: position.coords.latitude,
@@ -40,7 +44,10 @@ export default class FindAsset extends Component {
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
+    await getNearbyGraffiti(this.state.deviceLat, this.state.deviceLong)
+    this.setState({ loading: true })
   }
+
   _onPinch(pinchState, scaleFactor, source) {
     if (pinchState == 3) {
       this.setState({
@@ -55,39 +62,44 @@ export default class FindAsset extends Component {
   }
 
   render() {
-    ViroMaterials.createMaterials({
-      ViroARPlaneSelector_Translucent: {
-        lightingModel: "Constant",
-        diffuseColor: "rgba(0, 128, 0, 0.3)"
-      }
-    });
-    return (
-      <ViroARScene >
-        {/* anchorDetectionTypes={['PlanesVertical', 'PlanesHorizontal']} */}
-        <ViroARImageMarker target="targetOne" pauseUpdates={true}>
-          {/* <ViroARPlane minHeight={.5} minWidth={.5}> */}
-          <ViroImage
-            // height={2}
-            // width={2}
-            source={require('../res/graffiti.png')}
-            // position={[0, 0, 0.1]}
-            scale={this.state.scale}
-            // resizeMode={'ScaleToFit'}
-            position={[0, 0, -1]}
-            transformBehaviors={['billboard']}
-            onPinch={this._onPinch}
-          />
-          {/* </ViroARPlane> */}
+    if (this.state.loading) {
 
-        </ViroARImageMarker>
-      </ViroARScene>)
 
+      ViroMaterials.createMaterials({
+        ViroARPlaneSelector_Translucent: {
+          lightingModel: "Constant",
+          diffuseColor: "rgba(0, 128, 0, 0.3)"
+        }
+      });
+      console.log(this.props.nearByTag[0])
+      return (
+        <ViroARScene >
+          {/* anchorDetectionTypes={['PlanesVertical', 'PlanesHorizontal']} */}
+          <ViroARImageMarker target="targetOne" pauseUpdates={true}>
+            {/* <ViroARPlane minHeight={.5} minWidth={.5}> */}
+            <ViroImage
+              // height={2}
+              // width={2}
+              source={require(this.props.nearByTag[0].arTagUrl)}
+              // position={[0, 0, 0.1]}
+              scale={this.state.scale}
+              // resizeMode={'ScaleToFit'}
+              position={[0, 0, -1]}
+              transformBehaviors={['billboard']}
+              onPinch={this._onPinch}
+            />
+            {/* </ViroARPlane> */}
+
+          </ViroARImageMarker>
+        </ViroARScene>)
+
+    }
   }
 }
 
 ViroARTrackingTargets.createTargets({
   targetOne: {
-    source: require('../res/monitor.jpg'),
+    source: require(this.props.nearByTag[0].assetUrl),
     // orientation: '',
     physicalWidth: 0.3, // real world width in meters
   },
@@ -103,6 +115,14 @@ ViroARTrackingTargets.createTargets({
 //   }
 // });
 
-module.exports = FindAsset;
+const mapDispatch = (dispatch) => ({
+  getNearbyGraffiti: (lat, long) => dispatch(getNearbyGraffiti(lat, long))
+})
+
+const mapState = state => ({
+  nearByTag: state.graffiti.nearByTag
+})
+//module.exports = FindAsset;
+export default connect(mapState, mapDispatch)(FindAsset)
 
 

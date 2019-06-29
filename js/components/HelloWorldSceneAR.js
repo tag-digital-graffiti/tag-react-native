@@ -5,6 +5,9 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { ViroARScene, ViroText, ViroConstants } from 'react-viro';
+import Axios from 'axios';
+import { connect } from 'react-redux'
+import { getNearbyGraffiti } from '../store/graffiti'
 
 export default class HelloWorldSceneAR extends Component {
   constructor() {
@@ -17,7 +20,7 @@ export default class HelloWorldSceneAR extends Component {
       deviceLong: 0,
       markerLat: 40.705167,
       markerLong: -74.009049,
-      error: null
+      error: null,
     };
 
     // bind 'this' to functions
@@ -26,8 +29,8 @@ export default class HelloWorldSceneAR extends Component {
     this._transformPointToAR = this._transformPointToAR.bind(this);
   }
 
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
+  async componentDidMount() {
+    await navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({
           deviceLat: position.coords.latitude,
@@ -38,6 +41,7 @@ export default class HelloWorldSceneAR extends Component {
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
+
   }
   // render() {
   //   return this.state.deviceLat - this.state.markerLat < 0.0002 &&
@@ -152,4 +156,11 @@ var styles = StyleSheet.create({
   }
 });
 
+const mapDispatch = (dispatch) => ({
+  getNearbyGraffiti: (lat, long) => dispatch(getNearbyGraffiti(lat, long))
+})
+
+const mapState = state => ({
+  nearByTag: state.graffiti.nearByTag
+})
 module.exports = HelloWorldSceneAR;

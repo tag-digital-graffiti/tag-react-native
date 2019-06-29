@@ -15,8 +15,10 @@ const seed = async () => {
 
   const tagOne = await Tag.create({
     imageUrl: '75 Wall St',
-    lat: '40.705137',
-    long: '-74.007624'
+    lat: 40.7049444,
+    long: -74.0091771,
+    assetUrl: '../res/monitor.jpg',
+    arTagUrl: '../res/graffiti.png'
 
   });
 
