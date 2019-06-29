@@ -6,16 +6,10 @@ const Tag = db.define('tag', {
     type: Sequelize.TEXT
   },
   lat: {
-    type: Sequelize.INTEGER,
-    validate: {
-      min: 0.0002
-    }
+    type: Sequelize.STRING,
   },
   long: {
-    type: Sequelize.INTEGER,
-    validate: {
-      min: 0.0002
-    }
+    type: Sequelize.STRING,
   }
 })
 
