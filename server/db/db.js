@@ -3,15 +3,14 @@ const pkg = require('../../package.json')
 
 // const databaseName = pkg.name + (process.env.NODE_ENV === 'test' ? '-test' : '')
 
-const db = new Sequelize(
+const hello = new Sequelize(
   `postgres://localhost:5432/tagdb`,
   {
     logging: false
   }
 )
 
-
-module.exports = db
+module.exports = hello;
 
 // This is a global Mocha hook used for resource cleanup.
 // Otherwise, Mocha v4+ does not exit after tests.
