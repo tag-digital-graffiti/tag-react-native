@@ -2,14 +2,17 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Tag = db.define('tag', {
-  imageUrl: {
-    type: Sequelize.TEXT
-  },
   lat: {
-    type: Sequelize.STRING,
+    type: Sequelize.FLOAT,
   },
   long: {
-    type: Sequelize.STRING,
+    type: Sequelize.FLOAT,
+  },
+  assetUrl: {
+    type: Sequelize.TEXT
+  },
+  arTagUrl: {
+    type: Sequelize.TEXT
   }
 })
 
