@@ -1,6 +1,6 @@
-const { db, User, Tag } = require('./server/db');
-// const User = require('./server/db/models/users');
-// const Tag = require('./server/db/models/tags');
+const { db } = require('./server/db');
+const User = require('./server/db/models/users');
+const Tag = require('./server/db/models/tags');
 const { green, red } = require('chalk');
 
 // var Promise = require('bluebird');
@@ -16,8 +16,9 @@ const seed = async () => {
 
   const tagOne = await Tag.create({
     imageUrl: '75 Wall St',
-    lat: '-74.007624',
-    long: '40.705137'
+    lat: '40.705137',
+    long: '-74.007624'
+
   });
 
   console.log(green('Seeding success!'));

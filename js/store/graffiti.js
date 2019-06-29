@@ -1,5 +1,5 @@
 import axios from 'axios';
-const server = 'http://localhost:8080'
+const server = 'http://localhost:8082'
 
 const GET_NEARBY_GRAFFITI = 'GET_NEARBY_GRAFFITI';
 
@@ -15,7 +15,7 @@ const gotNearbyGraffiti = graffitis => ({
 export const getNearbyGraffiti = (lat, long) => {
   return async dispatch => {
     try {
-      let { data } = await axios.get(`${server}/api/tags`)
+      let { data } = await axios.get(`${server}/api/tags/?lat=${lat}&long=${long}`)
       dispatch(gotNearbyGraffiti(data))
     } catch (error) {
       console.warn(error);
