@@ -2,12 +2,21 @@
 
 import React, { Component } from 'react';
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { ViroARScene, ViroImage, ViroARTrackingTargets, ViroARImageMarker, ViroARPlane, ViroText, ViroMaterials, ViroARPlaneSelector } from 'react-viro';
+import {
+  ViroARScene,
+  ViroImage,
+  ViroARTrackingTargets,
+  ViroARImageMarker,
+  ViroARPlane,
+  ViroText,
+  ViroMaterials,
+  ViroARPlaneSelector
+} from 'react-viro';
 
-import { connect } from 'react-redux'
-import { getNearbyGraffiti } from '../store/graffiti'
+import { connect } from 'react-redux';
+import { getNearbyGraffiti } from '../store/graffiti';
 
 class FindAsset extends Component {
   constructor(props) {
@@ -34,18 +43,18 @@ class FindAsset extends Component {
 
   async componentDidMount() {
     await navigator.geolocation.getCurrentPosition(
-      (position) => {
+      position => {
         this.setState({
           deviceLat: position.coords.latitude,
           deviceLong: position.coords.longitude,
-          error: null,
+          error: null
         });
       },
-      (error) => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      error => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
-    await getNearbyGraffiti(this.state.deviceLat, this.state.deviceLong)
-    this.setState({ loading: true })
+    await getNearbyGraffiti(this.state.deviceLat, this.state.deviceLong);
+    this.setState({ loading: true });
   }
 
   _onPinch(pinchState, scaleFactor, source) {
@@ -62,25 +71,23 @@ class FindAsset extends Component {
   }
 
   render() {
-    if (this.state.loading) {
-
-
+    if (this.state.loading && this.props.nearByTag[0]) {
       ViroMaterials.createMaterials({
         ViroARPlaneSelector_Translucent: {
-          lightingModel: "Constant",
-          diffuseColor: "rgba(0, 128, 0, 0.3)"
+          lightingModel: 'Constant',
+          diffuseColor: 'rgba(0, 128, 0, 0.3)'
         }
       });
-      console.log(this.props.nearByTag[0])
+      console.log(this.props.nearByTag[0]);
       return (
-        <ViroARScene >
+        <ViroARScene>
           {/* anchorDetectionTypes={['PlanesVertical', 'PlanesHorizontal']} */}
           <ViroARImageMarker target="targetOne" pauseUpdates={true}>
             {/* <ViroARPlane minHeight={.5} minWidth={.5}> */}
             <ViroImage
               // height={2}
               // width={2}
-              source={require(this.props.nearByTag[0].arTagUrl)}
+              source={{ uri: this.props.nearByTag[0].arTagUrl }}
               // position={[0, 0, 0.1]}
               scale={this.state.scale}
               // resizeMode={'ScaleToFit'}
@@ -89,20 +96,29 @@ class FindAsset extends Component {
               onPinch={this._onPinch}
             />
             {/* </ViroARPlane> */}
-
           </ViroARImageMarker>
-        </ViroARScene>)
-
+        </ViroARScene>
+      );
+    } else {
+      return (
+        <View>
+          <Text>Hi</Text>
+        </View>
+      );
     }
   }
 }
 
+// if (!this.props.nearByTag[0].assetUrl) {
+//   this.props.nearByTag[0].assetUrl = ''
+// }
+
 ViroARTrackingTargets.createTargets({
   targetOne: {
-    source: require(this.props.nearByTag[0].assetUrl),
+    source: { uri: this.props.nearByTag[0].assetUrl },
     // orientation: '',
-    physicalWidth: 0.3, // real world width in meters
-  },
+    physicalWidth: 0.3 // real world width in meters
+  }
 });
 
 // var styles = StyleSheet.create({
@@ -115,14 +131,15 @@ ViroARTrackingTargets.createTargets({
 //   }
 // });
 
-const mapDispatch = (dispatch) => ({
+const mapDispatch = dispatch => ({
   getNearbyGraffiti: (lat, long) => dispatch(getNearbyGraffiti(lat, long))
-})
+});
 
 const mapState = state => ({
   nearByTag: state.graffiti.nearByTag
-})
+});
 //module.exports = FindAsset;
-export default connect(mapState, mapDispatch)(FindAsset)
-
-
+export default connect(
+  mapState,
+  mapDispatch
+)(FindAsset);
