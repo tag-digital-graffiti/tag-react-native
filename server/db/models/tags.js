@@ -7,14 +7,13 @@ const Tag = db.define('tag', {
   },
   long: {
     type: Sequelize.FLOAT,
-
   },
   assetUrl: {
     type: Sequelize.TEXT
   },
   arTagUrl: {
     type: Sequelize.TEXT
-  },
+  }
 })
 
 module.exports = Tag
