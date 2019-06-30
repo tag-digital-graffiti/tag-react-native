@@ -39,6 +39,7 @@ class FindAsset extends Component {
     // this._latLongToMerc = this._latLongToMerc.bind(this);
     // this._transformPointToAR = this._transformPointToAR.bind(this);
     this._onPinch = this._onPinch.bind(this);
+    this._createTarget = this._createTarget.bind(this)
   }
 
   async componentDidMount() {
@@ -53,8 +54,10 @@ class FindAsset extends Component {
       error => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
-    await getNearbyGraffiti(this.state.deviceLat, this.state.deviceLong);
+
+    await this.props.getNearbyGraffiti(this.state.deviceLat, this.state.deviceLong)
     this.setState({ loading: true });
+
   }
 
   _onPinch(pinchState, scaleFactor, source) {
@@ -70,15 +73,25 @@ class FindAsset extends Component {
     //set scale using native props to reflect pinch.
   }
 
+  _createTarget() {
+    ViroARTrackingTargets.createTargets({
+      targetOne: {
+        source: { uri: this.props.nearByTag[0].assetUrl },
+        // orientation: '',
+        physicalWidth: 0.3 // real world width in meters
+      }
+    })
+  }
+
   render() {
     if (this.state.loading && this.props.nearByTag[0]) {
+      this._createTarget()
       ViroMaterials.createMaterials({
         ViroARPlaneSelector_Translucent: {
           lightingModel: 'Constant',
           diffuseColor: 'rgba(0, 128, 0, 0.3)'
         }
       });
-      console.log(this.props.nearByTag[0]);
       return (
         <ViroARScene>
           {/* anchorDetectionTypes={['PlanesVertical', 'PlanesHorizontal']} */}
@@ -101,45 +114,32 @@ class FindAsset extends Component {
       );
     } else {
       return (
-        <View>
-          <Text>Hi</Text>
-        </View>
+        <ViroARScene>
+          <ViroText
+            text={'NOTHING HERE'}
+            scale={[0.5, 0.5, 0.5]}
+            position={[0, 0, -1]}
+          />
+        </ViroARScene>
       );
     }
   }
 }
-
-// if (!this.props.nearByTag[0].assetUrl) {
-//   this.props.nearByTag[0].assetUrl = ''
-// }
-
-ViroARTrackingTargets.createTargets({
-  targetOne: {
-    source: { uri: this.props.nearByTag[0].assetUrl },
-    // orientation: '',
-    physicalWidth: 0.3 // real world width in meters
-  }
-});
-
-// var styles = StyleSheet.create({
-//   helloWorldTextStyle: {
-//     fontFamily: 'Arial',
-//     fontSize: 30,
-//     color: '#ff403a',
-//     textAlignVertical: 'center',
-//     textAlign: 'center'
-//   }
-// });
 
 const mapDispatch = dispatch => ({
   getNearbyGraffiti: (lat, long) => dispatch(getNearbyGraffiti(lat, long))
 });
 
 const mapState = state => ({
-  nearByTag: state.graffiti.nearByTag
+  nearByTag: state.graffiti.nearByTags
 });
-//module.exports = FindAsset;
-export default connect(
+
+module.exports = connect(
   mapState,
   mapDispatch
 )(FindAsset);
+
+// export default connect(
+//   mapState,
+//   mapDispatch
+// )(FindAsset)

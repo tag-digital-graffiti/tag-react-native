@@ -10,10 +10,10 @@ router.get('/', async (req, res, next) => {
     const getNearByTag = await Tag.findAll({
       where: {
         lat: {
-          [Op.between]: [lat - 0.0002, lat + 0.0002]
+          [Op.between]: [lat - 0.002, lat + 0.002]
         },
         long: {
-          [Op.between]: [long - 0.0002, long + 0.0002]
+          [Op.between]: [long - 0.002, long + 0.002]
         }
       }
     }
