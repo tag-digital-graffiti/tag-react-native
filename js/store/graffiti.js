@@ -1,15 +1,17 @@
 import axios from 'axios';
-const server = 'http://71.190.247.98:8080';
+
+const server = 'http://tag-sever-ar.herokuapp.com';
 
 const GET_NEARBY_GRAFFITI = 'GET_NEARBY_GRAFFITI';
 
 const initialState = {
-  nearByTags: []
+  nearByTags: [],
 };
 
 const gotNearbyGraffiti = graffitis => ({
   type: GET_NEARBY_GRAFFITI,
-  graffitis
+
+  graffitis,
 });
 
 export const getNearbyGraffiti = (lat, long) => {
