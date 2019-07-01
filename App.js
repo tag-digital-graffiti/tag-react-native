@@ -30,7 +30,7 @@ var sharedProps = {
 };
 
 // Sets the default scene you want for AR and VR
-var InitialARScene = require('./js/components/FindAsset');
+var InitialARScene = require('./js/components/PlaneDetection');
 var InitialVRScene = require('./js/components/HelloWorldScene');
 
 var UNSET = 'UNSET';

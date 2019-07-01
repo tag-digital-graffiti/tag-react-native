@@ -87,7 +87,7 @@ class FindAsset extends Component {
             <ViroImage
               // height={2}
               // width={2}
-              source={{ uri: this.props.nearByTag[0].arTagUrl }}
+              source={require('../res/graffiti.png')}
               // position={[0, 0, 0.1]}
               scale={this.state.scale}
               // resizeMode={'ScaleToFit'}
@@ -115,7 +115,7 @@ class FindAsset extends Component {
 
 ViroARTrackingTargets.createTargets({
   targetOne: {
-    source: { uri: this.props.nearByTag[0].assetUrl },
+    source: require('../res/monitor.jpg'),
     // orientation: '',
     physicalWidth: 0.3 // real world width in meters
   }
@@ -131,13 +131,15 @@ ViroARTrackingTargets.createTargets({
 //   }
 // });
 
+const mapState = state => ({
+  nearByTag: state.graffiti.nearByTags
+})
+
 const mapDispatch = dispatch => ({
   getNearbyGraffiti: (lat, long) => dispatch(getNearbyGraffiti(lat, long))
 });
 
-const mapState = state => ({
-  nearByTag: state.graffiti.nearByTag
-});
+
 //module.exports = FindAsset;
 export default connect(
   mapState,
