@@ -18,7 +18,6 @@ export default class Home extends Component {
     return (
       <View style={styles.outer}>
         <Text style={{ backgroundColor: '#ffff00' }}>
-          {' '}
           TEST HOME PAGE GOES HERE
         </Text>
       </View>

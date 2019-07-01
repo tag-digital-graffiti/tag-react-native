@@ -11,14 +11,14 @@ import {
   ViroBox,
   ViroMaterials,
   ViroARPlaneSelector,
-  ViroImage,
+  ViroImage
 } from 'react-viro';
 // import console = require('console');
 
 ViroMaterials.createMaterials({
   grid: {
-    diffuseTexture: require('../res/guadalupe_360.jpg'),
-  },
+    diffuseTexture: require('../res/guadalupe_360.jpg')
+  }
 });
 
 class PlaneDetection extends Component {
@@ -28,7 +28,7 @@ class PlaneDetection extends Component {
     this.state = {
       deviceLat: 0,
       deviceLong: 0,
-      initialLoading: false,
+      initialLoading: false
     };
   }
   async componentDidMount() {
@@ -38,7 +38,7 @@ class PlaneDetection extends Component {
           {
             deviceLat: position.coords.latitude,
             deviceLong: position.coords.longitude,
-            error: null,
+            error: null
           },
           () => {
             this.props.getNearbyGraffiti(
@@ -56,31 +56,20 @@ class PlaneDetection extends Component {
     this.setState({ initialLoading: true });
   }
 
-  _renderScene() {
-    return (
-      <ViroText
-        text={this.state.text}
-        scale={[0.5, 0.5, 0.5]}
-        position={[0, 0.3, -1]}
-        style={StyleSheet.helloWorldTextStyle}
-      />
-    );
-  }
-
   render() {
     console.log(this.props.myGraffiti);
     if (this.state.initialLoading && this.props.myGraffiti[0]) {
       return (
         <ViroARScene
-          onTrackingUpdated={() => {
-            this.setState({ text: `CONGRATULATIONS LIOR <3 <3` });
-          }}
+          // onTrackingUpdated={() => {
+          //   this.setState({ text: `CONGRATULATIONS LIOR <3 <3` });
+          // }}
           anchorDetectionTypes={['PlanesVertical']} //['PlanesHorizontal', 'PlanesVertical'] props on VIROARPlaneSelector: alignment="Horizontal"
         >
-          {/* <ViroARPlaneSelector
-            minHeight={0.5}
-            minWidth={0.5}
-            alignment="Vertical"
+          <ViroARPlaneSelector
+            minHeight={0.2}
+            minWidth={0.2}
+            alignment='Vertical'
           >
             <ViroImage
               height={0.5}
@@ -89,12 +78,7 @@ class PlaneDetection extends Component {
               placeholderSource={require('../res/monitor.jpg')}
               source={{ uri: this.props.myGraffiti[0].arTagUrl }}
             />
-          </ViroARPlaneSelector> */}
-          <ViroText
-            text={this.props.myGraffiti[0].id}
-            scale={[0.5, 0.5, 0]}
-            position={[0, 0, -1]}
-          />
+          </ViroARPlaneSelector>
           {/* <ViroImage
             height={0.5}
             width={0.5}
@@ -124,16 +108,16 @@ var styles = StyleSheet.create({
     fontSize: 30,
     color: '#ee82ee',
     textAlignVertical: 'center',
-    textAlign: 'center',
-  },
+    textAlign: 'center'
+  }
 });
 
 const mapStateToProps = state => ({
-  myGraffiti: state.graffiti.nearByTags,
+  myGraffiti: state.graffiti.nearByTags
 });
 
 const mapDispatchToProps = dispatch => ({
-  getNearbyGraffiti: (lat, long) => dispatch(getNearbyGraffiti(lat, long)),
+  getNearbyGraffiti: (lat, long) => dispatch(getNearbyGraffiti(lat, long))
 });
 
 module.exports = connect(

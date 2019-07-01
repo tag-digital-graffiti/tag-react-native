@@ -11,10 +11,7 @@ import {
 
 import store from '../store';
 
-import {
-  ViroVRSceneNavigator,
-  ViroARSceneNavigator,
-} from 'react-viro';
+import { ViroVRSceneNavigator, ViroARSceneNavigator } from 'react-viro';
 
 /*
  TODO: Insert your API key below
