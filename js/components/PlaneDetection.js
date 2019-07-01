@@ -56,19 +56,30 @@ class PlaneDetection extends Component {
     this.setState({ initialLoading: true });
   }
 
+  _renderScene() {
+    return (
+      <ViroText
+        text={this.state.text}
+        scale={[0.5, 0.5, 0.5]}
+        position={[0, 0.3, -1]}
+        style={StyleSheet.helloWorldTextStyle}
+      />
+    );
+  }
+
   render() {
     console.log(this.props.myGraffiti);
     if (this.state.initialLoading && this.props.myGraffiti[0]) {
       return (
         <ViroARScene
-          // onTrackingUpdated={() => {
-          //   this.setState({ text: `CONGRATULATIONS LIOR <3 <3` });
-          // }}
+          onTrackingUpdated={() => {
+            this.setState({ text: `CONGRATULATIONS LIOR <3 <3` });
+          }}
           anchorDetectionTypes={['PlanesVertical']} //['PlanesHorizontal', 'PlanesVertical'] props on VIROARPlaneSelector: alignment="Horizontal"
         >
-          <ViroARPlaneSelector
-            minHeight={0.2}
-            minWidth={0.2}
+          {/* <ViroARPlaneSelector
+            minHeight={0.5}
+            minWidth={0.5}
             alignment="Vertical"
           >
             <ViroImage
@@ -78,7 +89,12 @@ class PlaneDetection extends Component {
               placeholderSource={require('../res/monitor.jpg')}
               source={{ uri: this.props.myGraffiti[0].arTagUrl }}
             />
-          </ViroARPlaneSelector>
+          </ViroARPlaneSelector> */}
+          <ViroText
+            text={this.props.myGraffiti[0].id}
+            scale={[0.5, 0.5, 0]}
+            position={[0, 0, -1]}
+          />
           {/* <ViroImage
             height={0.5}
             width={0.5}

@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const server = 'http://tag-sever-ar.herokuapp.com';
 
 const GET_NEARBY_GRAFFITI = 'GET_NEARBY_GRAFFITI';
@@ -9,6 +10,7 @@ const initialState = {
 
 const gotNearbyGraffiti = graffitis => ({
   type: GET_NEARBY_GRAFFITI,
+
   graffitis,
 });
 
