@@ -45,11 +45,13 @@ class PlaneDetection extends Component {
         onTrackingUpdated={() => {
           this.setState({ text: `CONGRATULATIONS LIOR <3 <3` });
         }}
+        anchorDetectionTypes={['PlanesVertical']} //['PlanesHorizontal', 'PlanesVertical'] props on VIROARPlaneSelector: alignment="Horizontal"
       >
-        <ViroARPlaneSelector minHeight={0.5} minWidth={0.5}>
+        <ViroARPlaneSelector minHeight={0.5} minWidth={0.5} alignment="Vertical">
           <ViroImage
             height={0.5}
             width={0.5}
+            rotation={[-90,0,0]}
             placeholderSource={require('../res/monitor.jpg')}
             source={require('../res/graffiti.png')}
           />
