@@ -17,8 +17,8 @@ const seed = async () => {
     imageUrl: '75 Wall St',
     lat: 40.7049444,
     long: -74.0091771,
-    assetUrl: '../res/monitor.jpg',
-    arTagUrl: '../res/graffiti.png'
+    assetUrl: 'https://i.imgur.com/qUS6CBj.jpg',
+    arTagUrl: 'https://i.imgur.com/p99IbXG.png'
 
   });
 
