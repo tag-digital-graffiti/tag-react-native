@@ -19,7 +19,7 @@ ViroMaterials.createMaterials({
   }
 });
 
-export default class PlaneDetection extends Component {
+class PlaneDetection extends Component {
   constructor() {
     super();
 
