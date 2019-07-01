@@ -1,31 +1,32 @@
-import Home from './js/components/home'
+import React from 'react';
+import { Text, View } from 'react-native';
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import EntryARScene from './js/components/EntryARScene';
-import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { NativeRouter, Route, Switch } from 'react-router-native';
+import Home from './js/components/home';
 
-import {
-  AppRegistry,
-  Text,
-  View,
-  StyleSheet,
-} from 'react-native';
-
-import store from './js/store'
-
-export default class App extends Component {
+class HomeScreen extends React.Component {
   render() {
     return (
-      <Provider store={store}>
-        <NativeRouter>
-          <View>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/entryAr" component={EntryARScene} />
-            </Switch>
-          </View>
-        </NativeRouter>
-      </Provider>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Home />
+      </View>
     );
   }
 }
+
+class SettingsScreen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <EntryARScene />
+      </View>
+    );
+  }
+}
+
+const TabNavigator = createBottomTabNavigator({
+  Home: HomeScreen,
+  AR: SettingsScreen
+});
+
+export default createAppContainer(TabNavigator);
