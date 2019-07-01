@@ -6,9 +6,12 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  */
-
+import Home from './js/components/home';
+import PlaneDetection from './js/components/PlaneDetection';
 import React, { Component } from 'react';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
+import { NativeRouter, Route, Switch } from 'react-router-native';
+
 import {
   AppRegistry,
   Text,
@@ -18,9 +21,13 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-import store from './js/store'
+import store from './js/store';
 
-import { ViroVRSceneNavigator, ViroARSceneNavigator, ViroARPlane } from 'react-viro';
+import {
+  ViroVRSceneNavigator,
+  ViroARSceneNavigator,
+  ViroARPlane
+} from 'react-viro';
 
 /*
  TODO: Insert your API key below
@@ -63,12 +70,16 @@ export default class ViroSample extends Component {
   render() {
     return (
       <Provider store={store}>
-        {(() => {
-          return this._getARNavigator();
-        }
-        )()}
+        <NativeRouter>
+          <View>
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route exact path='/ar' component={PlaneDetection} />
+            </Switch>
+          </View>
+        </NativeRouter>
       </Provider>
-    )
+    );
   }
 
   // Presents the user with a choice of an AR or VR experience

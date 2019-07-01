@@ -19,7 +19,7 @@ ViroMaterials.createMaterials({
   }
 });
 
-class PlaneDetection extends Component {
+export default class PlaneDetection extends Component {
   constructor() {
     super();
 
@@ -47,11 +47,15 @@ class PlaneDetection extends Component {
         }}
         anchorDetectionTypes={['PlanesVertical']} //['PlanesHorizontal', 'PlanesVertical'] props on VIROARPlaneSelector: alignment="Horizontal"
       >
-        <ViroARPlaneSelector minHeight={0.5} minWidth={0.5} alignment="Vertical">
+        <ViroARPlaneSelector
+          minHeight={0.5}
+          minWidth={0.5}
+          alignment='Vertical'
+        >
           <ViroImage
             height={0.5}
             width={0.5}
-            rotation={[-90,0,0]}
+            rotation={[-90, 0, 0]}
             placeholderSource={require('../res/monitor.jpg')}
             source={require('../res/graffiti.png')}
           />
