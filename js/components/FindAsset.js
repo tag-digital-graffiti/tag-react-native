@@ -12,7 +12,7 @@ import {
   ViroARPlane,
   ViroText,
   ViroMaterials,
-  ViroARPlaneSelector
+  ViroARPlaneSelector,
 } from 'react-viro';
 
 import { connect } from 'react-redux';
@@ -31,7 +31,7 @@ class FindAsset extends Component {
       markerLong: -74.009049,
       error: null,
       scale: [1, 1, 0],
-      loading: false
+      loading: false,
     };
 
     // bind 'this' to functions
@@ -47,7 +47,7 @@ class FindAsset extends Component {
         this.setState({
           deviceLat: position.coords.latitude,
           deviceLong: position.coords.longitude,
-          error: null
+          error: null,
         });
       },
       error => this.setState({ error: error.message }),
@@ -63,8 +63,8 @@ class FindAsset extends Component {
         scale: [
           this.state.scale[0] * scaleFactor * 0.5,
           this.state.scale[1] * scaleFactor * 0.5,
-          this.state.scale[2] * scaleFactor * 0.5
-        ]
+          this.state.scale[2] * scaleFactor * 0.5,
+        ],
       });
     }
     //set scale using native props to reflect pinch.
@@ -75,8 +75,8 @@ class FindAsset extends Component {
       ViroMaterials.createMaterials({
         ViroARPlaneSelector_Translucent: {
           lightingModel: 'Constant',
-          diffuseColor: 'rgba(0, 128, 0, 0.3)'
-        }
+          diffuseColor: 'rgba(0, 128, 0, 0.3)',
+        },
       });
       console.log(this.props.nearByTag[0]);
       return (
@@ -117,8 +117,8 @@ ViroARTrackingTargets.createTargets({
   targetOne: {
     source: require('../res/monitor.jpg'),
     // orientation: '',
-    physicalWidth: 0.3 // real world width in meters
-  }
+    physicalWidth: 0.3, // real world width in meters
+  },
 });
 
 // var styles = StyleSheet.create({
@@ -132,13 +132,12 @@ ViroARTrackingTargets.createTargets({
 // });
 
 const mapState = state => ({
-  nearByTag: state.graffiti.nearByTags
-})
-
-const mapDispatch = dispatch => ({
-  getNearbyGraffiti: (lat, long) => dispatch(getNearbyGraffiti(lat, long))
+  nearByTag: state.graffiti.nearByTags,
 });
 
+const mapDispatch = dispatch => ({
+  getNearbyGraffiti: (lat, long) => dispatch(getNearbyGraffiti(lat, long)),
+});
 
 //module.exports = FindAsset;
 export default connect(
