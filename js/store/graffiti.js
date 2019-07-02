@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+//
 const server = 'http://tag-sever-ar.herokuapp.com';
 
 const GET_NEARBY_GRAFFITI = 'GET_NEARBY_GRAFFITI';
@@ -27,7 +27,7 @@ export const getNearbyGraffiti = (lat, long) => {
   };
 };
 
-export default function (state = initialState, action) {
+export default function(state = initialState, action) {
   let stateCopy = { ...state };
   switch (action.type) {
     case GET_NEARBY_GRAFFITI:
